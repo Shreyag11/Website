@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - Ashoka Career Compass</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .required::after {
+      content: "*";
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h2>User Profile</h2>
+    <form id="profileForm">
+      <div class="form-group">
+        <label for="name">Name<span class="required"></span></label>
+        <input type="text" class="form-control" id="name" value="John Doe" readonly required>
+      </div>
+      <div class="form-group">
+        <label for="email">Ashoka Email ID<span class="required"></span></label>
+        <input type="email" class="form-control" id="email" value="john.doe@example.com" readonly required>
+      </div>
+      <div class="form-group">
+        <label for="course">Course<span class="required"></span></label>
+        <input type="text" class="form-control" id="course" required>
+      </div>
+      <div class="form-group">
+        <label for="graduationYear">Year of Graduation<span class="required"></span></label>
+        <input type="text" class="form-control" id="graduationYear" required>
+      </div>
+      <div class="form-group">
+        <label for="workExperience">Work Experience<span class="required"></span></label>
+        <input type="text" class="form-control" id="workExperience" required>
+      </div>
+      <div class="form-group">
+        <label for="profile">Profile<span class="required"></span></label>
+        <input type="text" class="form-control" id="profile" required>
+      </div>
+      <div class="form-group">
+        <label for="domain">Domain<span class="required"></span></label>
+        <input type="text" class="form-control" id="domain" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Choose your role<span class="required"></span></label>
+        <select class="form-control" id="role" required>
+          <option value="mentor">Mentor</option>
+          <option value="mentee">Mentee</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Function to determine whether the user is alumni or current Ashokan
+    function getUserType() {
+      // You can determine user type here, for example:
+      // Let's assume for demonstration purposes that the user is an alumni
+      return "alumni";
+    }
+
+    // Function to dynamically update form based on user type
+    function updateForm() {
+      const userType = getUserType();
+      const courseField = document.getElementById('course');
+      const graduationYearField = document.getElementById('graduationYear');
+      const workExperienceField = document.getElementById('workExperience');
+      const profileField = document.getElementById('profile');
+      const domainField = document.getElementById('domain');
+
+      if (userType === "alumni") {
+        // Remove fields for current Ashokans
+        courseField.parentNode.style.display = 'none';
+        graduationYearField.parentNode.style.display = 'none';
+      } else {
+        // Remove fields for alumni
+        workExperienceField.parentNode.style.display = 'none';
+        profileField.parentNode.style.display = 'none';
+        domainField.parentNode.style.display = 'none';
+      }
+    }
+
+    // Call updateForm when the page loads
+    window.onload = updateForm;
+
+    // Function to convert user input to uppercase
+    function convertToUpperCase(event) {
+      event.target.value = event.target.value.toUpperCase();
+    }
+
+    // Add event listeners to input fields to convert input to uppercase
+    document.getElementById('course').addEventListener('input', convertToUpperCase);
+    document.getElementById('graduationYear').addEventListener('input', convertToUpperCase);
+    document.getElementById('workExperience').addEventListener('input', convertToUpperCase);
+    document.getElementById('profile').addEventListener('input', convertToUpperCase);
+    document.getElementById('domain').addEventListener('input', convertToUpperCase);
+
+    // Submit event listener for the form
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+      // Prevent default form submission
+      event.preventDefault();
+
+      // Handle form submission here
+      // You can access form data using document.getElementById().value
+      // Then you can process the data or redirect the user as needed
+    });
+  </script>
+</body>
+</html>
