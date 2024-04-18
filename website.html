@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashoka Career Compass</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url('https://jooinn.com/images/linked-in-a-network-social-network-and-social-connections-concept.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero-section {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .get-started-box {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .required::after {
+      content: "*";
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1 class="display-4">Welcome to Ashoka Career Compass</h1>
+          <p class="lead">A platform to connect and network with professionals worldwide.</p>
+          <div class="get-started-box">
+            <p class="mb-4">Get started today!</p>
+            <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#loginModal">Login</button>
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#registerModal">Join</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Add an image here if needed -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="username">Ashoka Email ID<span class="required"></span></label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Ashoka email ID" required>
+              </div>
+              <div class="form-group">
+                <label for="password">Password<span class="required"></span></label>
+                <input type="password" class="form-control" id="password" placeholder="Password" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="loginUser()">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="name">Name<span class="required"></span></label>
+              <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Ashoka Email ID<span class="required"></span></label>
+              <input type="email" class="form-control" id="email" placeholder="Enter Ashoka email ID" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password<span class="required"></span></label>
+              <input type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <label for="status">Alumni or Current Ashokan<span class="required"></span></label>
+              <select class="form-control" id="status" required>
+                <option value="alumni">Alumni</option>
+                <option value="current">Current Ashokan</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function registerUser() {
+    // Get form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const status = document.getElementById('status').value;
+
+    // Create user object
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+      status: status
+    };
+
+    // Send POST request to server
+    fetch('http://127.0.0.1:8000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to register');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Optionally, handle success response
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Display error message to the user
+      alert('Failed to register. Please try again.');
+    });
+  }
+
+  function loginUser() {
+    // Get form data
+    const email = document.getElementById('username').value; // Changed to 'username'
+    const password = document.getElementById('password').value;
+
+    // Create user object
+    const user = {
+      email: email,
+      password: password
+    };
+
+    // Send POST request to server
+    fetch('http://127.0.0.1:8000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to login');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Check if login was successful
+      if (data.success) {
+        // If successful, redirect to dashboard
+        redirect();
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Display error message to the user
+      alert('Failed to login. Please check your credentials and try again.');
+    });
+  }
+
+  function redirect() {
+    window.location.href = "\templates\dashboard.html";
+  }
+</script>
