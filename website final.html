@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ashoka Career Compass</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-image: url('https://jooinn.com/images/linked-in-a-network-social-network-and-social-connections-concept.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .hero-section {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .get-started-box {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    .required::after {
+      content: "*";
+      color: red;
+    }
+    .sign-out-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+  
+    .sign-out-btn:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Ashoka Career Compass</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <div class="sign-out-btn" onclick="signOut()">Sign Out</div>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h1 class="display-4">Welcome to Ashoka Career Compass</h1>
+          <p class="lead">A platform to connect and network with professionals worldwide.</p>
+          <div class="get-started-box">
+            <p class="mb-4">Get started today!</p>
+            <button class="btn btn-primary mr-2" data-toggle="modal" data-target="#loginModal">Login</button>
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#registerModal">Join</button>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <!-- Add an image here if needed -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Login</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="username">Ashoka Email ID<span class="required"></span></label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Ashoka email ID" required>
+              </div>
+              <div class="form-group">
+                <label for="login_password">Password<span class="required"></span></label>
+                <input type="login_password" class="form-control" id="login_password" placeholder="Password" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="loginUser()">Login</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="registerForm">
+            <div class="form-group">
+              <label for="name">Name<span class="required"></span></label>
+              <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Ashoka Email ID<span class="required"></span></label>
+              <input type="email" class="form-control" id="email" placeholder="Enter Ashoka email ID" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password<span class="required"></span></label>
+              <input type="password" class="form-control" id="password" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+              <label for="status">Alumni or Current Ashokan<span class="required"></span></label>
+              <select class="form-control" id="status" required>
+                <option value="alumni">Alumni</option>
+                <option value="current">Current Ashokan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Select your areas of expertise:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Data Analysis" id="dataAnalysis">
+                <label class="form-check-label" for="dataAnalysis">Data Analysis</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Public Policy" id="publicPolicy">
+                <label class="form-check-label" for="publicPolicy">Public Policy</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Finance" id="finance">
+                <label class="form-check-label" for="finance">Finance</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Research" id="research">
+                <label class="form-check-label" for="research">Research</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Banking" id="banking">
+                <label class="form-check-label" for="banking">Banking</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Consulting" id="consulting">
+                <label class="form-check-label" for="consulting">Consulting</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Entrepreneurship" id="entrepreneurship">
+                <label class="form-check-label" for="entrepreneurship">Entrepreneurship</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Machine Learning" id="machineLearning">
+                <label class="form-check-label" for="machineLearning">Machine Learning</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="AI" id="ai">
+                <label class="form-check-label" for="ai">AI</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Data Science" id="dataScience">
+                <label class="form-check-label" for="dataScience">Data Science</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Public Sector" id="publicSector">
+                <label class="form-check-label" for="publicSector">Public Sector</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Nanotechnology" id="nanotechnology">
+                <label class="form-check-label" for="nanotechnology">Nanotechnology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Content Writing" id="contentWriting">
+                <label class="form-check-label" for="contentWriting">Content Writing</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Psychology" id="psychology">
+                <label class="form-check-label" for="psychology">Psychology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Biology" id="biology">
+                <label class="form-check-label" for="biology">Biology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Editing" id="editing">
+                <label class="form-check-label" for="editing">Editing</label>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="registerUser()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  function registerUser() {
+    // Get form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const status = document.getElementById('status').value;
+    const expertise = Array.from(document.querySelectorAll('input[name="expertise"]:checked')).map(checkbox => checkbox.value);
+    // Create user object
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+      status: status,
+      expertise: expertise
+    };
+
+    // Send POST request to server
+    fetch('http://127.0.0.1:8000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to register');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Display success message to the user
+      alert('Registration successful!');
+      // Close the register modal
+      $('#registerModal').modal('hide');
+      // Clear the form fields
+      document.getElementById('registerForm').reset();
+      // Redirect to the dashboard page
+      window.location.href = "/dashboard";
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Display error message to the user
+      alert('Failed to register. Please try again.');
+    });
+  }
+
+  function loginUser() {
+    // Get form data
+    const email = document.getElementById('username').value; // Changed to 'username'
+    const password = document.getElementById('login_password').value;
+
+    // Send POST request to server
+    fetch(`http://127.0.0.1:8000/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
+      method: 'POST',
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`Failed to login. Response: ${JSON.stringify(response)}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Success:', data);
+      // Check if login was successful
+      if (data.message === 'Login successful') {
+        // If successful, redirect to the dashboard page
+        window.location.href = "/dashboard";
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Display error message to the user
+      alert('Failed to login. Please check your credentials and try again.');
+    });
+  }
+  function signOut() {
+    fetch("http://127.0.0.1:8000/signout", {
+      method: "POST",
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+      window.location.href = "/";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  }
+</script>
