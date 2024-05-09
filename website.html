@@ -34,9 +34,31 @@
       content: "*";
       color: red;
     }
+    .sign-out-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+  
+    .sign-out-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Ashoka Career Compass</a>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <div class="sign-out-btn" onclick="signOut()">Sign Out</div>
+      </li>
+    </ul>
+  </nav>
 
   <!-- Hero Section -->
   <section class="hero-section">
@@ -75,8 +97,8 @@
                 <input type="text" class="form-control" id="username" placeholder="Enter Ashoka email ID" required>
               </div>
               <div class="form-group">
-                <label for="password">Password<span class="required"></span></label>
-                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                <label for="login_password">Password<span class="required"></span></label>
+                <input type="login_password" class="form-control" id="login_password" placeholder="Password" required>
               </div>
             </form>
           </div>
@@ -119,6 +141,73 @@
                 <option value="current">Current Ashokan</option>
               </select>
             </div>
+            <div class="form-group">
+              <label>Select your areas of expertise:</label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Data Analysis" id="dataAnalysis">
+                <label class="form-check-label" for="dataAnalysis">Data Analysis</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Public Policy" id="publicPolicy">
+                <label class="form-check-label" for="publicPolicy">Public Policy</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Finance" id="finance">
+                <label class="form-check-label" for="finance">Finance</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Research" id="research">
+                <label class="form-check-label" for="research">Research</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Banking" id="banking">
+                <label class="form-check-label" for="banking">Banking</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Consulting" id="consulting">
+                <label class="form-check-label" for="consulting">Consulting</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Entrepreneurship" id="entrepreneurship">
+                <label class="form-check-label" for="entrepreneurship">Entrepreneurship</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Machine Learning" id="machineLearning">
+                <label class="form-check-label" for="machineLearning">Machine Learning</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="AI" id="ai">
+                <label class="form-check-label" for="ai">AI</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Data Science" id="dataScience">
+                <label class="form-check-label" for="dataScience">Data Science</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Public Sector" id="publicSector">
+                <label class="form-check-label" for="publicSector">Public Sector</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Nanotechnology" id="nanotechnology">
+                <label class="form-check-label" for="nanotechnology">Nanotechnology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Content Writing" id="contentWriting">
+                <label class="form-check-label" for="contentWriting">Content Writing</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Psychology" id="psychology">
+                <label class="form-check-label" for="psychology">Psychology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Biology" id="biology">
+                <label class="form-check-label" for="biology">Biology</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="expertise" value="Editing" id="editing">
+                <label class="form-check-label" for="editing">Editing</label>
+              </div>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -139,13 +228,14 @@
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const status = document.getElementById('status').value;
-
+    const expertise = Array.from(document.querySelectorAll('input[name="expertise"]:checked')).map(checkbox => checkbox.value);
     // Create user object
     const user = {
       name: name,
       email: email,
       password: password,
-      status: status
+      status: status,
+      expertise: expertise
     };
 
     // Send POST request to server
@@ -164,7 +254,14 @@
     })
     .then(data => {
       console.log('Success:', data);
-      // Optionally, handle success response
+      // Display success message to the user
+      alert('Registration successful!');
+      // Close the register modal
+      $('#registerModal').modal('hide');
+      // Clear the form fields
+      document.getElementById('registerForm').reset();
+      // Redirect to the dashboard page
+      window.location.href = "/dashboard";
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -176,34 +273,24 @@
   function loginUser() {
     // Get form data
     const email = document.getElementById('username').value; // Changed to 'username'
-    const password = document.getElementById('password').value;
-
-    // Create user object
-    const user = {
-      email: email,
-      password: password
-    };
+    const password = document.getElementById('login_password').value;
 
     // Send POST request to server
-    fetch('http://127.0.0.1:8000/login', {
+    fetch(`http://127.0.0.1:8000/login?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
     })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Failed to login');
+        throw new Error(`Failed to login. Response: ${JSON.stringify(response)}`);
       }
       return response.json();
     })
     .then(data => {
       console.log('Success:', data);
       // Check if login was successful
-      if (data.success) {
-        // If successful, redirect to dashboard
-        redirect();
+      if (data.message === 'Login successful') {
+        // If successful, redirect to the dashboard page
+        window.location.href = "/dashboard";
       }
     })
     .catch((error) => {
@@ -212,8 +299,17 @@
       alert('Failed to login. Please check your credentials and try again.');
     });
   }
-
-  function redirect() {
-    window.location.href = "\templates\dashboard.html";
+  function signOut() {
+    fetch("http://127.0.0.1:8000/signout", {
+      method: "POST",
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data.message);
+      window.location.href = "/";
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
   }
 </script>

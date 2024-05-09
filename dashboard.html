@@ -11,11 +11,13 @@
     }
     .nav-link-box {
       background-color: #007bff;
-      color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
+      color: white;
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
     .nav-link-box:hover {
       background-color: #0056b3;
@@ -32,6 +34,20 @@
       border-radius: 10px;
       margin-bottom: 20px;
     }
+    .sign-out-btn {
+      background-color: #dc3545;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+  
+    .sign-out-btn:hover {
+      background-color: #c82333;
+    }
   </style>
 </head>
 <body>
@@ -40,6 +56,9 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <div class="nav-link-box" onclick="redirectTo('profile.html')">Profile</div>
+      </li>
+      <li class="nav-item">
+        <div class="sign-out-btn" onclick="signOut()">Sign Out</div>
       </li>
     </ul>
   </nav>
@@ -53,10 +72,10 @@
           <p class="about-description">We aim to address the career-related queries of students by creating a dedicated portal for Ashokans. This portal will facilitate connections between current students with the other enrolled students and alumni within their respective domains of interest. Navigating career choices can be daunting for students, and having access to guidance from alumni and peers can greatly assist them in making informed decisions. By providing a platform for students to connect with individuals who have experience in their desired fields and assigning a mentor to someone who needs it, we can empower students to gain valuable insights and advice with a click of a button, ultimately enhancing their career prospects.</p>
           <div class="row">
             <div class="col-md-6">
-              <div class="nav-link-box" onclick="redirectTo('connect.html')">Connect</div>
+              <div class="nav-link-box" onclick="redirectTo('/connect')">Connect</div>
             </div>
             <div class="col-md-6">
-              <div class="nav-link-box" onclick="redirectTo('mentor-mentee.html')">Mentor-Mentee</div>
+              <div class="nav-link-box" onclick="redirectTo('/mentor-mentee')">Mentor-Mentee</div>
             </div>
           </div>
         </div>
@@ -65,8 +84,9 @@
       <div class="col-md-6">
         <div class="vertical-box">
           <h5>Assigned Mentors</h5>
-          <br><br><br>
+          <ul id="mentorList"></ul>
           <h5>Assigned Mentees</h5>
+          <ul id="menteeList"></ul>
         </div>
       </div>
     </div>
@@ -79,6 +99,44 @@
     function redirectTo(page) {
       window.location.href = page;
     }
+    function signOut() {
+      fetch("http://127.0.0.1:8000/signout", {
+        method: "POST",
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data.message);
+        window.location.href = "/";
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+    }
+    function fetchAssignments() {
+      fetch("http://127.0.0.1:8000/assignments")
+        .then(response => response.json())
+        .then(data => {
+          const mentorList = document.getElementById("mentorList");
+          const menteeList = document.getElementById("menteeList");
+  
+          data.mentors.forEach(mentor => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `${mentor.name} because of common skill ${mentor.skill}`;
+            mentorList.appendChild(listItem);
+          });
+  
+          data.mentees.forEach(mentee => {
+            const listItem = document.createElement("li");
+            listItem.textContent = `${mentee.name} because of common skill ${mentee.skill}`;
+            menteeList.appendChild(listItem);
+          });
+        })
+        .catch(error => {
+          console.error("Error:", error);
+        });
+    }
+    // Call fetchAssignments when the page loads.
+    fetchAssignments();
   </script>
 </body>
 </html>
